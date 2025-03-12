@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ProxyManage"
+             x:Class="ProxyManage.MainPage">
+
+    <ContentPage.BindingContext>
+        <local:MainViewModel />
+    </ContentPage.BindingContext>
+
+    <StackLayout Padding="20">
+        <Button Text="关闭代理" Clicked="OnDisableProxyClicked" />
+
+        <Label Text="代理配置列表" FontSize="Large" />
+
+        <CollectionView ItemsSource="{Binding Configs}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="10" Margin="5" BackgroundColor="LightGray">
+                        <Label Text="{Binding Name}" FontSize="Medium" FontAttributes="Bold" />
+                        <Entry Text="{Binding ProxyServer}" Placeholder="Proxy Server" />
+                        <Entry Text="{Binding BypassList}" Placeholder="Bypass List" />
+                        <Button Text="开启此代理" Clicked="OnEnableProxyForItemClicked" CommandParameter="{Binding .}" />
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Text="保存配置" Clicked="OnSaveConfigClicked" />
+        <Button Text="打开配置文件夹" Clicked="OnOpenFolderClicked" />
+    </StackLayout>
+</ContentPage>
+    
+    
+    

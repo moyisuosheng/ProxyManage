@@ -1,0 +1,12 @@
+[
+  {
+    "Name": "Default",
+    "ProxyServer": "http://proxyserver:80",
+    "BypassList": "localhost;127.0.0.1"
+  },
+  {
+    "Name": "Alternate",
+    "ProxyServer": "http://alternateproxy:8080",
+    "BypassList": "localhost;127.0.0.1;<local>"
+  }
+]
