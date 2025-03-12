@@ -15,8 +15,13 @@ namespace ProxyManage.Platforms.Windows
 
         private readonly string configFilePath;
 
+        private readonly JsonSerializerOptions options;
+
         public ConfigUtil()
         {
+            // 设置 JSON 序列化选项
+            options = new() { WriteIndented = true };
+
             string dataPath = FileSystem.Current.AppDataDirectory;
             configFolderPath = Path.Combine(dataPath, "config");
             configFilePath = Path.Combine(configFolderPath, "config.json");
@@ -54,10 +59,11 @@ namespace ProxyManage.Platforms.Windows
                 {
                     using var reader = new StreamReader(stream);
                     var json = reader.ReadToEnd();
-                    var configs = JsonSerializer.Deserialize<List<Config>>(json) ?? [];
 
-                    // 将默认配置文件写入系统临时目录
-                    File.WriteAllText(configFilePath, json);
+
+
+                    var configs = JsonSerializer.Deserialize<List<Config>>(json) ?? [];
+                    this.SaveConfiguration(configs);
                     return configs;
                 }
 
@@ -66,7 +72,8 @@ namespace ProxyManage.Platforms.Windows
 
         public void SaveConfiguration(List<Config> configs)
         {
-            var json = JsonSerializer.Serialize(configs);
+            var json = JsonSerializer.Serialize(configs, options);
+
             File.WriteAllText(configFilePath, json);
         }
     }
