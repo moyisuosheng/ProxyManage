@@ -7,13 +7,48 @@ namespace ProxyManage
 {
     public class ProxyUtil : IProxyUtil
     {
+        /// <summary>
+        /// 选中“请勿将代理服务器用于本地(Intranet)地址”字符串
+        /// </summary>
+        private readonly string LocalStr = "<local>";
 
-        public bool SetSystemProxy(string proxy, string bypassList)
+        public bool SetSystemProxy(Config config)
         {
             if (DeviceInfo.Platform == DevicePlatform.WinUI)
             {
-                return SetWindowsProxy(proxy, bypassList);
+                if (config == null)
+                {
+                    Debug.WriteLine("配置为空");
+                    return false;
+                }
 
+                bool local = config.Local??false;
+                string proxyServer = config.ProxyServer ?? "";
+                string bypassList = config.BypassList ?? "";
+
+                List<string> list = bypassList.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                if (local)
+                {
+                    // 判断集合中是否存在值与 LocalStr 相同的元素
+                    if (list.Contains(LocalStr))
+                    {
+                        Debug.WriteLine("已经包含<local>，无需添加");
+                    }
+                    else
+                    {
+
+                        list.Add(LocalStr);
+                        bypassList = string.Join(";", list);
+                    }
+                }
+                else
+                {
+                    list.RemoveAll(item => item == LocalStr);
+                    bypassList = string.Join(";", list);
+                }
+
+                return SetWindowsProxy(proxyServer, bypassList);
             }
             else
             {

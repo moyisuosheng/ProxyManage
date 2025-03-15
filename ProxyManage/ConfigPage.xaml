@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProxyManage.ConfigPage">
+
+    <StackLayout Padding="20">
+        <Label Text="编辑配置" FontSize="Large" />
+        <Entry x:Name="NameEntry" Text="{Binding Name}" Placeholder="Name" TextChanged="OnEntryTextChanged" />
+        <Entry x:Name="ProxyServerEntry" Text="{Binding ProxyServer}" Placeholder="Proxy Server (e.g., http://example.com:8080)" TextChanged="OnEntryTextChanged" />
+        <Editor x:Name="BypassListEditor" Text="{Binding BypassList}" Placeholder="Bypass List" AutoSize="TextChanges" TextChanged="OnBypassListEditorTextChanged" />
+        <Switch IsToggled="{Binding Local}">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="On">
+                            <VisualState.Setters>
+                                <Setter Property="ThumbColor" Value="#43b5a9" />
+                                <Setter Property="OnColor" Value="#d9f0ee"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Off">
+                            <VisualState.Setters>
+                                <Setter Property="ThumbColor" Value="#919191" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </VisualStateManager.VisualStateGroups>
+        </Switch>
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20">
+            <Button x:Name="SaveButton" Text="保存" Clicked="OnSaveButtonClicked" BackgroundColor="#47d8b0" IsEnabled="False" />
+            <Button Text="取消" Clicked="OnCancelButtonClicked" BackgroundColor="#f08080" />
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

@@ -4,9 +4,13 @@
     {
         public App()
         {
+
+            MainPage = new NavigationPage(new MainPage());
+
             InitializeComponent();
 
-            MainPage = new AppShell();
+            //MainPage = new NavigationPage(new AppShell());
+
         }
     }
 }

@@ -6,5 +6,7 @@
         public string? ProxyServer { get; set; }
         public string? BypassList { get; set; }
 
+        public Boolean? Local { get; set; }
+
     }
 }

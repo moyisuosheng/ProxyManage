@@ -32,7 +32,7 @@ namespace ProxyManage.Platforms.Windows
             }
         }
 
-        public string getFolder()
+        public string GetFolderPath()
         {
             return configFolderPath;
         }
@@ -48,7 +48,7 @@ namespace ProxyManage.Platforms.Windows
             {
                 // 从嵌入资源中读取默认配置文件
                 var assembly = Assembly.GetExecutingAssembly();
-                using var stream = assembly.GetManifestResourceStream("ProxyManage.Resources.config.defaultConfig.json");
+                using var stream = assembly.GetManifestResourceStream("ProxyManage.Resources.Config.defaultConfig.json");
                 if (null == stream)
                 {
                     List<Config> list = [];

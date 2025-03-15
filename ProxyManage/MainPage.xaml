@@ -8,28 +8,40 @@
         <local:MainViewModel />
     </ContentPage.BindingContext>
 
-    <StackLayout Padding="20">
-        <Button Text="关闭代理" Clicked="OnDisableProxyClicked" />
+    <ScrollView>
+        <StackLayout Padding="20">
+            <Label Text="代理配置列表" FontSize="Large" />
 
-        <Label Text="代理配置列表" FontSize="Large" />
+            <CollectionView ItemsSource="{Binding Configs}"
+                            Margin="5"
+                            VerticalScrollBarVisibility="Always"
+                            HorizontalScrollBarVisibility="Never">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" Margin="5" BackgroundColor="#f0f9f6">
+                            <Frame CornerRadius="5" Padding="10" Margin="5">
+                                <StackLayout>
+                                    <Label Text="{Binding Name}" FontSize="Medium" FontAttributes="Bold" TextColor="#0d889e"/>
+                                    <Label Text="{Binding ProxyServer}" FontSize="Medium" TextColor="#0f7c5e"/>
+                                    <Label Text="{Binding BypassList}" TextColor="Gray"/>
+                                    <Switch IsToggled="{Binding Local}" VerticalOptions="Center" IsEnabled="False" OnColor="#43b5a9" ThumbColor="#d4d6d6"/>
+                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                                        <Button Text="应用" Clicked="OnEnableProxyForItemClicked" CommandParameter="{Binding .}" BackgroundColor="#47d8b0"/>
+                                        <Button Text="修改" Clicked="OnEditConfigClicked" CommandParameter="{Binding .}" BackgroundColor="#d5fabd"  TextColor="Gray"/>
+                                        <Button Text="删除" Clicked="OnDeleteConfigClicked" CommandParameter="{Binding .}" BackgroundColor="#f08080" TextColor="White"/>
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
-        <CollectionView ItemsSource="{Binding Configs}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout Padding="10" Margin="5" BackgroundColor="LightGray">
-                        <Label Text="{Binding Name}" FontSize="Medium" FontAttributes="Bold" />
-                        <Entry Text="{Binding ProxyServer}" Placeholder="Proxy Server" />
-                        <Entry Text="{Binding BypassList}" Placeholder="Bypass List" />
-                        <Button Text="开启此代理" Clicked="OnEnableProxyForItemClicked" CommandParameter="{Binding .}" />
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-
-        <Button Text="保存配置" Clicked="OnSaveConfigClicked" />
-        <Button Text="打开配置文件夹" Clicked="OnOpenFolderClicked" />
-    </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="30">
+                <Button Text="打开配置文件夹" Clicked="OnOpenFolderClicked"   BackgroundColor="#e8faf5"  TextColor="Gray"/>
+                <Button Text="添加新配置" Clicked="OnAddNewConfigClicked"  BackgroundColor="#7ee4c8" />
+                <Button Text="关闭代理" Clicked="OnDisableProxyClicked"  BackgroundColor="#f08080" />
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
 </ContentPage>
-    
-    
-    
