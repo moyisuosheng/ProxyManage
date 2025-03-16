@@ -9,7 +9,7 @@
     </ContentPage.BindingContext>
 
     <ScrollView>
-        <StackLayout Padding="20">
+        <StackLayout Padding="20,0,20,20">
             <Label Text="代理配置列表" FontSize="Large" />
 
             <CollectionView ItemsSource="{Binding Configs}"
@@ -18,7 +18,7 @@
                             HorizontalScrollBarVisibility="Never">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout Padding="10" Margin="5" BackgroundColor="#f0f9f6">
+                        <StackLayout Padding="10" Margin="5" BackgroundColor="#f0f9f6" >
                             <Frame CornerRadius="5" Padding="10" Margin="5">
                                 <StackLayout>
                                     <Label Text="{Binding Name}" FontSize="Medium" FontAttributes="Bold" TextColor="#0d889e"/>

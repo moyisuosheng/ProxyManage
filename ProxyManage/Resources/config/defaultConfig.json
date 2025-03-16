@@ -8,7 +8,7 @@
   {
     "Name": "Alternate",
     "ProxyServer": "http://alternateproxy:8080",
-    "BypassList": "localhost;127.0.0.1;<local>",
+    "BypassList": "localhost;127.0.0.1;",
     "Local": true
   }
 ]
