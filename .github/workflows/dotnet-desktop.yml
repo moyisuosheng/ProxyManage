@@ -1,0 +1,61 @@
+name: Build and Sign Windows MAUI App
+
+on:
+  push:
+    tags:
+      - '*'
+
+env:
+  SOLUTION_NAME: ProjectManage.sln
+  PROJECT_PATH: ProjectManage/ProjectManage.csproj
+
+jobs:
+  build-and-sign:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET 8
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Restore Dependencies
+      run: dotnet restore $env:SOLUTION_NAME
+
+    - name: Build and Publish
+      run: |
+        dotnet publish $env:PROJECT_PATH `
+          -c Release `
+          -f net8.0-windows `
+          -p:WindowsPackageType=Msix `
+          -p:GenerateAppInstallerFile=True `
+          --output ./artifacts/windows
+
+    - name: Install Certificate
+      run: |
+        $pfxBytes = [System.Convert]::FromBase64String("${{ secrets.WINDOWS_PFX_BASE64 }}")
+        $tempPfx = "certificate.pfx"
+        [IO.File]::WriteAllBytes($tempPfx, $pfxBytes)
+        Import-PfxCertificate `
+          -FilePath $tempPfx `
+          -CertStoreLocation "Cert:\CurrentUser\My" `
+          -Password (ConvertTo-SecureString -String "${{ secrets.WINDOWS_PFX_PASSWORD }}" -AsPlainText -Force)
+
+    - name: Sign MSIX Package
+      run: |
+        $msixPath = Get-ChildItem -Path ./artifacts/windows -Filter *.msix -Recurse | Select-Object -First 1
+        signtool sign `
+          /fd SHA256 `
+          /f certificate.pfx `
+          /p "${{ secrets.WINDOWS_PFX_PASSWORD }}" `
+          /tr http://timestamp.digicert.com `
+          $msixPath.FullName
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Signed-Windows-Package
+        path: ./artifacts/windows/**/*.msix
