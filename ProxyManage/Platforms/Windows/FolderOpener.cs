@@ -1,5 +1,3 @@
-using Microsoft.Maui.Controls.Compatibility.Platform.UWP;
-using System.Diagnostics;
 using WinLauncher = Windows.System.Launcher;
 
 [assembly: Dependency(typeof(ProxyManage.Platforms.Windows.FolderOpener))]

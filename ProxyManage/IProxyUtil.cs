@@ -13,6 +13,12 @@ public interface IProxyUtil
     public bool SetSystemProxy(Config config);
 
     /// <summary>
+    /// 启用系统代理
+    /// </summary>
+    /// <returns></returns>
+    public bool EnableSystemProxy();
+
+    /// <summary>
     /// 禁用系统代理
     /// </summary>
     /// <returns></returns>

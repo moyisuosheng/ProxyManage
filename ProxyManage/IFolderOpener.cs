@@ -1,5 +1,3 @@
-using ProxyManage;
-
 /// <summary>
 /// 文件夹打开器接口
 /// </summary>

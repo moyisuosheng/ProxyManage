@@ -88,13 +88,13 @@ namespace ProxyManage
                     // 获取配置页面的配置的索引
                     int index = configPage.GetIndex();
 
-                    if(index < 0)
+                    if (index < 0)
                     {
                         // 新增配置
                         viewModel.AddNewConfig(configPage.GetConfig());
                         List<Config> configs = viewModel.GetConfiguration();
                         configUtil.SaveConfiguration(configs ?? []);
-                        DisplayAlert("成功", "配置已新增并保存", "确定");
+                        MessageUtil.ShowSuccessMessage("配置已新增并保存！");
                     }
                     else
                     {
@@ -103,9 +103,27 @@ namespace ProxyManage
 
                         List<Config> configs = viewModel.GetConfiguration();
                         configUtil.SaveConfiguration(configs ?? []);
-                        DisplayAlert("成功", "配置已保存", "确定");
+                        MessageUtil.ShowSuccessMessage("配置已保存！");
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// 当禁用代理按钮被点击时的回调
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnEnableProxyClicked(object sender, EventArgs e)
+        {
+            // 关闭代理
+            if (proxyUtil.EnableSystemProxy())
+            {
+                MessageUtil.ShowSuccessMessage("代理已启用！");
+            }
+            else
+            {
+                MessageUtil.ShowErrorMessage("代理未启用！");
             }
         }
 
@@ -119,11 +137,11 @@ namespace ProxyManage
             // 关闭代理
             if (proxyUtil.DisableSystemProxy())
             {
-                DisplayAlert("成功", $"代理已禁用。", "确定");
+                MessageUtil.ShowSuccessMessage("代理已禁用！");
             }
             else
             {
-                DisplayAlert("失败", $"代理未禁用。", "确定");
+                MessageUtil.ShowErrorMessage("代理未禁用！");
             }
         }
 
@@ -140,11 +158,11 @@ namespace ProxyManage
             {
                 if (proxyUtil.SetSystemProxy(config))
                 {
-                    DisplayAlert("成功", $"代理已启用: {config.Name}", "确定");
+                    MessageUtil.ShowSuccessMessage($"代理已启用: {config.Name}");
                 }
                 else
                 {
-                    DisplayAlert("失败", $"代理未启用: {config.Name}", "确定");
+                    MessageUtil.ShowErrorMessage($"代理未启用: {config.Name}");
                 }
 
             }
@@ -162,7 +180,7 @@ namespace ProxyManage
             string configFolderPath = configUtil.GetFolderPath();
             if (folderOpener == null)
             {
-                DisplayAlert("错误", "无法打开文件夹。", "确定");
+                MessageUtil.ShowErrorMessage("无法打开文件夹。");
                 return;
             }
             folderOpener.OpenFolder(configFolderPath);
@@ -183,7 +201,7 @@ namespace ProxyManage
                 if (BindingContext is MainViewModel viewModel)
                 {
                     int index = viewModel.GetIndexOfConfig(config);
-                    if(index < 0)
+                    if (index < 0)
                     {
                         throw new Exception("Invalid index");
                     }
@@ -205,11 +223,11 @@ namespace ProxyManage
                     {
                         List<Config> configs = viewModel.GetConfiguration();
                         configUtil.SaveConfiguration(configs ?? []);
-                        DisplayAlert("成功", $"配置已删除: {config.Name}", "确定");
+                        MessageUtil.ShowSuccessMessage($"配置已删除: {config.Name}");
                     }
                     else
                     {
-                        DisplayAlert("失败", $"配置未删除: {config.Name}", "确定");
+                        MessageUtil.ShowErrorMessage($"配置未删除: {config.Name}");
                     }
                 }
             }
@@ -222,7 +240,7 @@ namespace ProxyManage
         {
             if (BindingContext is MainViewModel viewModel)
             {
-                Config newConfig = new Config
+                Config newConfig = new()
                 {
                     Name = "",
                     ProxyServer = "",
@@ -234,5 +252,6 @@ namespace ProxyManage
                 await Navigation.PushAsync(configPage);
             }
         }
+
     }
 }

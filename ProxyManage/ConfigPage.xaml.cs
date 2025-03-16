@@ -1,4 +1,3 @@
-using Microsoft.Maui.Controls;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 
@@ -41,7 +40,7 @@ namespace ProxyManage
             if (!IsValid)
             {
                 // 显示错误消息
-                await DisplayAlert("输入无效", ErrorMessage, "确定");
+                MessageUtil.ShowErrorMessage(ErrorMessage);
                 return;
             }
 

@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Net;
 using System.Runtime.InteropServices;
 
 
@@ -22,7 +21,7 @@ namespace ProxyManage
                     return false;
                 }
 
-                bool local = config.Local??false;
+                bool local = config.Local ?? false;
                 string proxyServer = config.ProxyServer ?? "";
                 string bypassList = config.BypassList ?? "";
 
@@ -63,6 +62,19 @@ namespace ProxyManage
             {
                 return DisableWindowsProxy();
 
+            }
+            else
+            {
+                Debug.WriteLine("当前平台不支持设置系统代理");
+            }
+            return false;
+        }
+
+        public bool EnableSystemProxy()
+        {
+            if (DeviceInfo.Platform == DevicePlatform.WinUI)
+            {
+                return EnableWindowsProxy();
             }
             else
             {
@@ -132,6 +144,46 @@ namespace ProxyManage
             {
 
                 Debug.WriteLine("设置代理失败");
+            }
+            return result;
+        }
+
+        private bool EnableWindowsProxy()
+        {
+            var proxyInfo = new INTERNET_PER_CONN_OPTION_LIST();
+            var options = new INTERNET_PER_CONN_OPTION[1];
+
+            options[0] = new INTERNET_PER_CONN_OPTION
+            {
+                dwOption = INTERNET_PER_CONN_FLAGS,
+                Value = new INTERNET_PER_CONN_OPTION_UNION
+                {
+                    dwValue = PROXY_TYPE_PROXY
+                }
+            };
+
+            proxyInfo.dwSize = Marshal.SizeOf(proxyInfo);
+            proxyInfo.pszConnection = IntPtr.Zero;
+            proxyInfo.dwOptionCount = options.Length;
+            proxyInfo.dwOptionError = 0;
+
+            var optionSize = Marshal.SizeOf(typeof(INTERNET_PER_CONN_OPTION)) * options.Length;
+            proxyInfo.pOptions = Marshal.AllocCoTaskMem(optionSize);
+            Marshal.StructureToPtr(options[0], proxyInfo.pOptions, false);
+
+            var result = InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PER_CONNECTION_OPTION, ref proxyInfo, Marshal.SizeOf(proxyInfo));
+            InternetSetOption(IntPtr.Zero, INTERNET_OPTION_SETTINGS_CHANGED, IntPtr.Zero, 0);
+            InternetSetOption(IntPtr.Zero, INTERNET_OPTION_REFRESH, IntPtr.Zero, 0);
+
+            Marshal.FreeCoTaskMem(proxyInfo.pOptions);
+
+            if (result)
+            {
+                Debug.WriteLine("成功启用代理");
+            }
+            else
+            {
+                Debug.WriteLine("启用代理失败");
             }
             return result;
         }

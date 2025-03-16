@@ -40,7 +40,8 @@
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="30">
                 <Button Text="打开配置文件夹" Clicked="OnOpenFolderClicked"   BackgroundColor="#e8faf5"  TextColor="Gray"/>
                 <Button Text="添加新配置" Clicked="OnAddNewConfigClicked"  BackgroundColor="#7ee4c8" />
-                <Button Text="关闭代理" Clicked="OnDisableProxyClicked"  BackgroundColor="#f08080" />
+                <Button Text="启用代理" Clicked="OnEnableProxyClicked"  BackgroundColor="#47d8b0" />
+                <Button Text="禁用代理" Clicked="OnDisableProxyClicked"  BackgroundColor="#f08080" />
             </StackLayout>
         </StackLayout>
     </ScrollView>

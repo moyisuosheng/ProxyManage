@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.PortableExecutable;
-using System.Text;
+﻿using System.Reflection;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace ProxyManage.Platforms.Windows
 {
@@ -59,8 +53,6 @@ namespace ProxyManage.Platforms.Windows
                 {
                     using var reader = new StreamReader(stream);
                     var json = reader.ReadToEnd();
-
-
 
                     var configs = JsonSerializer.Deserialize<List<Config>>(json) ?? [];
                     this.SaveConfiguration(configs);
