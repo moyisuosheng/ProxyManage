@@ -7,7 +7,8 @@ on:
 
 env:
   PROJECT_PATH: ProxyManage/ProxyManage.csproj
-
+  # 包名变量
+  PACKAGE_NAME: ProxyManage
 jobs:
   build-and-sign:
     strategy:
@@ -57,7 +58,6 @@ jobs:
         $xml = [xml](Get-Content $manifestPath)
         $xml.Package.Identity.Version = "${{ env.version }}"
         $xml.Save($manifestPath)
-
     - name: Clean
       run: dotnet clean
 
@@ -130,9 +130,9 @@ jobs:
     - name: Zip the Folder
       run: |
         # 生成 ZIP 文件的正确路径
-        Compress-Archive -Path "${{ github.workspace }}/ProxyManage/artifacts/windows/AppPackages" -DestinationPath "${{ github.workspace }}/AppPackages.zip"
+        Compress-Archive -Path "${{ github.workspace }}/ProxyManage/artifacts/windows/AppPackages" -DestinationPath "${{ github.workspace }}/${{ env.PACKAGE_NAME }}-${{ env.version }}.zip"
         # 验证 ZIP 文件是否存在
-        if (-not (Test-Path "${{ github.workspace }}/AppPackages.zip")) {
+        if (-not (Test-Path "${{ github.workspace }}/${{ env.PACKAGE_NAME }}-${{ env.version }}.zip")) {
           Write-Error "ZIP file creation failed!"
           exit 1
         }
@@ -142,6 +142,6 @@ jobs:
         tag_name: ${{ github.ref_name }}
         name: Release ${{ github.ref_name }}
         files: |
-          AppPackages.zip
+          ${{ env.PACKAGE_NAME }}-${{ env.version }}.zip
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
