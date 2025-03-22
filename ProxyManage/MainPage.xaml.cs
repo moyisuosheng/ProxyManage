@@ -2,6 +2,9 @@
 
 namespace ProxyManage
 {
+    /// <summary>
+    /// 主页面
+    /// </summary>
     public partial class MainPage : ContentPage
     {
         /// <summary>
@@ -211,7 +214,12 @@ namespace ProxyManage
             }
         }
 
-        private void OnDeleteConfigClicked(object sender, EventArgs e)
+        /// <summary>
+        /// 当删除配置按钮被点击时的回调
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void OnDeleteConfigClicked(object sender, EventArgs e)
         {
             Button? button = sender as Button;
 
@@ -219,18 +227,24 @@ namespace ProxyManage
             {
                 if (BindingContext is MainViewModel viewModel)
                 {
-                    if (viewModel.RemoveConfig(config))
+                    bool answer = await DisplayAlert("确认删除", $"确认要删除 {config.Name} 配置吗？", "删除", "取消");
+                    if (answer)
                     {
-                        List<Config> configs = viewModel.GetConfiguration();
-                        configUtil.SaveConfiguration(configs ?? []);
-                        MessageUtil.ShowSuccessMessage($"配置已删除: {config.Name}");
-                    }
-                    else
-                    {
-                        MessageUtil.ShowErrorMessage($"配置未删除: {config.Name}");
+                        // 执行删除操作
+                        if (viewModel.RemoveConfig(config))
+                        {
+                            List<Config> configs = viewModel.GetConfiguration();
+                            configUtil.SaveConfiguration(configs ?? []);
+                            MessageUtil.ShowSuccessMessage($"配置已删除: {config.Name}");
+                        }
+                        else
+                        {
+                            MessageUtil.ShowErrorMessage($"配置未删除: {config.Name}");
+                        }
                     }
                 }
             }
+
         }
 
         /// <summary>

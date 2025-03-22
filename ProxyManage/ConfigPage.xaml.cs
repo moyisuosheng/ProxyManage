@@ -3,6 +3,9 @@ using System.Text.RegularExpressions;
 
 namespace ProxyManage
 {
+    /// <summary>
+    /// 配置页面
+    /// </summary>
     public partial class ConfigPage : ContentPage
     {
         /// <summary>
@@ -20,6 +23,11 @@ namespace ProxyManage
         /// </summary>
         private bool IsSaved;
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="config"></param>
         public ConfigPage(int index, Config config)
         {
             InitializeComponent();

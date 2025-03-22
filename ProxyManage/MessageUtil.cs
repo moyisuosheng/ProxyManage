@@ -3,6 +3,9 @@ using CommunityToolkit.Maui.Core;
 
 namespace ProxyManage
 {
+    /// <summary>
+    /// 消息工具
+    /// </summary>
     class MessageUtil
     {
         /// <summary>

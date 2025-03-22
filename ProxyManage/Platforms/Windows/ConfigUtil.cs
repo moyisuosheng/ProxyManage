@@ -3,14 +3,29 @@ using System.Text.Json;
 
 namespace ProxyManage.Platforms.Windows
 {
+    /// <summary>
+    /// 配置工具
+    /// </summary>
     public class ConfigUtil : IConfigUtil
     {
+        /// <summary>
+        /// 配置文件夹路径
+        /// </summary>
         private readonly string configFolderPath;
 
+        /// <summary>
+        /// 配置文件路径
+        /// </summary>
         private readonly string configFilePath;
 
+        /// <summary>
+        /// JSON 序列化选项
+        /// </summary>
         private readonly JsonSerializerOptions options;
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public ConfigUtil()
         {
             // 设置 JSON 序列化选项
@@ -26,11 +41,19 @@ namespace ProxyManage.Platforms.Windows
             }
         }
 
+        /// <summary>
+        /// 获取配置文件夹路径
+        /// </summary>
+        /// <returns></returns>
         public string GetFolderPath()
         {
             return configFolderPath;
         }
 
+        /// <summary>
+        /// 从配置文件读取配置
+        /// </summary>
+        /// <returns></returns>
         public List<Config> LoadConfiguration()
         {
             if (File.Exists(configFilePath))
@@ -62,6 +85,10 @@ namespace ProxyManage.Platforms.Windows
             }
         }
 
+        /// <summary>
+        /// 保存配置到配置文件
+        /// </summary>
+        /// <param name="configs"></param>
         public void SaveConfiguration(List<Config> configs)
         {
             var json = JsonSerializer.Serialize(configs, options);

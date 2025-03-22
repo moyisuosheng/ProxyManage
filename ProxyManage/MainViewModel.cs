@@ -2,6 +2,9 @@ using System.Collections.ObjectModel;
 
 namespace ProxyManage
 {
+    /// <summary>
+    /// 主视图模型
+    /// </summary>
     public class MainViewModel
     {
         /// <summary>
@@ -14,6 +17,10 @@ namespace ProxyManage
         /// </summary>
         private readonly IConfigUtil configUtil;
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <exception cref="Exception"></exception>
         public MainViewModel()
         {
             IConfigUtil iConfigUtil = DependencyService.Get<IConfigUtil>();

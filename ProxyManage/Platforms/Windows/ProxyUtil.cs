@@ -4,6 +4,9 @@ using System.Runtime.InteropServices;
 
 namespace ProxyManage
 {
+    /// <summary>
+    /// 代理工具
+    /// </summary>
     public class ProxyUtil : IProxyUtil
     {
         /// <summary>
@@ -11,6 +14,11 @@ namespace ProxyManage
         /// </summary>
         private readonly string LocalStr = "<local>";
 
+        /// <summary>
+        /// 设置系统代理
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
         public bool SetSystemProxy(Config config)
         {
             if (DeviceInfo.Platform == DevicePlatform.WinUI)
@@ -56,6 +64,10 @@ namespace ProxyManage
             return false;
         }
 
+        /// <summary>
+        /// 禁用系统代理
+        /// </summary>
+        /// <returns></returns>
         public bool DisableSystemProxy()
         {
             if (DeviceInfo.Platform == DevicePlatform.WinUI)
@@ -70,6 +82,10 @@ namespace ProxyManage
             return false;
         }
 
+        /// <summary>
+        /// 启用系统代理
+        /// </summary>
+        /// <returns></returns>
         public bool EnableSystemProxy()
         {
             if (DeviceInfo.Platform == DevicePlatform.WinUI)
@@ -83,6 +99,12 @@ namespace ProxyManage
             return false;
         }
 
+        /// <summary>
+        /// 设置 Windows 代理
+        /// </summary>
+        /// <param name="proxy"></param>
+        /// <param name="bypassList"></param>
+        /// <returns></returns>
         private bool SetWindowsProxy(string proxy, string bypassList)
         {
             var proxyInfo = new INTERNET_PER_CONN_OPTION_LIST();
@@ -148,6 +170,10 @@ namespace ProxyManage
             return result;
         }
 
+        /// <summary>
+        /// 启用 Windows 代理
+        /// </summary>
+        /// <returns></returns>
         private bool EnableWindowsProxy()
         {
             var proxyInfo = new INTERNET_PER_CONN_OPTION_LIST();
@@ -188,6 +214,10 @@ namespace ProxyManage
             return result;
         }
 
+        /// <summary>
+        /// 禁用 Windows 代理
+        /// </summary>
+        /// <returns></returns>
         private bool DisableWindowsProxy()
         {
             var proxyInfo = new INTERNET_PER_CONN_OPTION_LIST();
