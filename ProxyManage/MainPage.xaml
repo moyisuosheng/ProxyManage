@@ -21,9 +21,21 @@
                         <StackLayout Padding="10" Margin="5" BackgroundColor="#f0f9f6" >
                             <Frame CornerRadius="5" Padding="10" Margin="5">
                                 <StackLayout>
-                                    <Label Text="{Binding Name}" FontSize="Medium" FontAttributes="Bold" TextColor="#0d889e"/>
-                                    <Label Text="{Binding ProxyServer}" FontSize="Medium" TextColor="#0f7c5e"/>
-                                    <Label Text="{Binding BypassList}" TextColor="Gray"/>
+                                    <Label Text="{Binding Name}" FontSize="Medium" FontAttributes="Bold" TextColor="#0d889e">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnLabelTapped" CommandParameter="{Binding .}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <Label Text="{Binding ProxyServer}" FontSize="Medium" TextColor="#0f7c5e">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnLabelTapped" CommandParameter="{Binding .}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <Label Text="{Binding BypassList}" TextColor="Gray">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnLabelTapped" CommandParameter="{Binding .}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
                                     <Switch IsToggled="{Binding Local}" VerticalOptions="Center" IsEnabled="False" OnColor="#43b5a9" ThumbColor="#d4d6d6"/>
                                     <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
                                         <Button Text="应用" Clicked="OnEnableProxyForItemClicked" CommandParameter="{Binding .}" BackgroundColor="#47d8b0"/>

@@ -203,13 +203,7 @@ namespace ProxyManage
             {
                 if (BindingContext is MainViewModel viewModel)
                 {
-                    int index = viewModel.GetIndexOfConfig(config);
-                    if (index < 0)
-                    {
-                        throw new Exception("Invalid index");
-                    }
-                    ConfigPage configPage = new(index, config);
-                    await Navigation.PushAsync(configPage);
+                    await JumpConfigPage(config, viewModel);
                 }
             }
         }
@@ -267,5 +261,40 @@ namespace ProxyManage
             }
         }
 
+        /// <summary>
+        /// 当标签被点击时的回调
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <exception cref="Exception"></exception>
+        private async void OnLabelTapped(object sender, TappedEventArgs e)
+        {
+            Label? label = sender as Label;  
+            if (label?.BindingContext is Config config)
+            {
+                if (BindingContext is MainViewModel viewModel)
+                {
+                    await JumpConfigPage(config, viewModel);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 跳转到配置页面
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="viewModel"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        private async Task JumpConfigPage(Config config, MainViewModel viewModel)
+        {
+            int index = viewModel.GetIndexOfConfig(config);
+            if (index < 0)
+            {
+                throw new Exception("Invalid index");
+            }
+            ConfigPage configPage = new(index, config);
+            await Navigation.PushAsync(configPage);
+        }
     }
 }
